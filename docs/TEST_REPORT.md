@@ -108,7 +108,7 @@ npm run deploy:check
 
 ## E2E
 
-Status: **PASS** - 31 test.
+Status: **PASS** - 33 test.
 
 ```bash
 npx playwright test
@@ -128,6 +128,7 @@ Cakupan:
 - dialog email konfirmasi tampil dan dapat digunakan (Gmail compose, `mailto:`, salin isi, unduh `.eml`);
 - isi email konfirmasi benar (referensi, paket, durasi, total, metode);
 - CTA WhatsApp tersedia di kartu kontak, FAQ, footer, tombol support, dan halaman pembayaran;
+- rincian fitur paket dan tabel perbandingan menjadi disclosure di mobile, tetap terbuka di desktop;
 - navigasi dari dialog ke halaman sukses berfungsi;
 - halaman sukses tidak memakai klaim “Pembayaran Berhasil”;
 - empty state pesanan hilang dan plan parameter tidak valid;
@@ -144,6 +145,7 @@ Status: **PASS** (verifikasi otomatis + pengukuran)
 - 320, 375, 390, 768, 1024, 1280, 1440 px.
 - `documentElement.scrollWidth === clientWidth` pada semua lebar.
 - Kartu harga stacking, chart mengikuti container, form full width, tabel perbandingan memakai scroll container berlabel.
+- Rincian fitur paket dan tabel perbandingan menjadi disclosure di bawah 1024px; tinggi halaman `/pricing` di 390px turun dari **7.989px menjadi 6.983px** (±1.006px).
 - Visual diperiksa melalui screenshot viewport desktop/mobile.
 
 ## Accessibility
@@ -175,13 +177,13 @@ Status: **PASS untuk SEO/BP/A11y; PARTIAL untuk Performance mobile**
 
 Dijalankan terhadap build produksi di `http://127.0.0.1:4173/`.
 
-| Preset                | Performance | Accessibility | Best Practices | SEO     | LCP       | TBT        |
-| --------------------- | ----------- | ------------- | -------------- | ------- | --------- | ---------- |
-| Desktop               | **100**     | **100**       | **100**        | **100** | 0,8 s     | 30 ms      |
-| Mobile (run terakhir) | **93**      | 100           | 100            | 100     | 2,5 s     | 250 ms     |
-| Mobile (variasi)      | 87–93       | 100           | 100            | 100     | 2,5–2,8 s | 250–310 ms |
+| Preset                                            | Performance | Accessibility | Best Practices | SEO     | LCP       | TBT        |
+| ------------------------------------------------- | ----------- | ------------- | -------------- | ------- | --------- | ---------- |
+| Desktop                                           | **100**     | **100**       | **100**        | **100** | 0,8 s     | 30 ms      |
+| Mobile (run terakhir, setelah disclosure pricing) | **88**      | 100           | 100            | 100     | 2,6 s     | 380 ms     |
+| Mobile (variasi)                                  | 88–93       | 100           | 100            | 100     | 2,5–2,8 s | 250–380 ms |
 
-Skor mobile bervariasi karena simulasi CPU/network dan beban mesin. Run terakhir mencapai target ≥90, tetapi beberapa run sebelumnya 87–88; hasil ini belum dianggap konsisten. Penyebab utama: TBT hidrasi React dan ukuran DOM mockup. Sudah dioptimalkan dengan lazy chart, font lokal, `content-visibility`, dan pengurangan client component kartu harga.
+Skor mobile bervariasi karena simulasi CPU/network dan beban mesin. Beberapa run mencapai ≥90 (93), run terakhir 88; hasil ini belum dianggap konsisten. Penyebab utama: TBT hidrasi React dan ukuran DOM mockup. Sudah dioptimalkan dengan lazy chart, font lokal, `content-visibility`, dan pengurangan client component kartu harga.
 
 SEO: metadata unik, canonical, OG/Twitter, sitemap, robots, JSON-LD, `noindex` untuk halaman pembayaran.
 
@@ -189,7 +191,7 @@ SEO: metadata unik, canonical, OG/Twitter, sitemap, robots, JSON-LD, `noindex` u
 
 Status: **PASS**
 
-- Seluruh 35 unit test dan 31 E2E test lulus setelah perubahan terakhir.
+- Seluruh 35 unit test dan 33 E2E test lulus setelah perubahan terakhir.
 - Prefetch RSC 404 (Windows) dieliminasi oleh `scripts/fix-static-export.mjs`.
 - Hydration mismatch pada `/order?plan=` diatasi dengan client-only mount.
 - Setelah perubahan header, copy, a11y, dan performa, alur checkout diuji ulang end-to-end.
@@ -205,6 +207,7 @@ Status: **PASS**
 7. **Skeleton `aria-label` tanpa role** — ditambahkan `role="status"`; Lighthouse Accessibility naik ke 100.
 8. **Duplikasi label langkah & stepper terpotong** — label pendek di mobile, badge header dihapus.
 9. **Klik konfirmasi email tidak memberi respons tanpa mail client** — CTA kini membuka dialog email dengan Gmail compose, `mailto:`, salin isi, dan unduh `.eml`; scroll region dibuat focusable agar lolos axe.
+10. **Halaman pricing terlalu panjang di Android** — rincian fitur tiap paket dan tabel perbandingan dilipat menjadi disclosure dengan chevron di mobile; desktop tetap terbuka.
 
 ## Belum diverifikasi
 

@@ -129,7 +129,7 @@ Tidak ada. Tidak ada data pengguna yang disimpan di server.
 ## Testing & Automation
 
 - Vitest: 35 unit test.
-- Playwright: 31 E2E test (termasuk axe) — lihat `docs/TEST_REPORT.md`.
+- Playwright: 33 E2E test (termasuk axe) — lihat `docs/TEST_REPORT.md`.
 - ESLint, Prettier, TypeScript strict.
 - Build static diverifikasi.
 - Lighthouse desktop dan mobile dijalankan secara manual.

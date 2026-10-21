@@ -13,6 +13,7 @@ Yang **ada**:
 - Landing page lengkap: hero + mockup dashboard, kategori bisnis, masalah/solusi, 10 fitur, dua showcase produk, dashboard demo, analitik interaktif, cara kerja, manfaat, harga, metode pembayaran, FAQ, CTA, dan footer.
 - Halaman `/features`, `/pricing`, `/order`, `/payment`, `/payment-success`, `/privacy-policy`, `/terms`.
 - Pemilihan paket dan durasi dengan perhitungan harga + diskon di browser.
+- Rincian fitur tiap paket dan tabel perbandingan dilipat menjadi dropdown pada mobile; desktop tetap menampilkan semuanya.
 - State pesanan sementara di `sessionStorage` dan nomor referensi `ORD-YYYYMMDD-XXXX`.
 - Pembayaran manual: transfer bank, e-wallet, QRIS (placeholder), tombol salin dengan fallback.
 - Konfirmasi pembayaran via dialog email: Gmail compose, `mailto:`, salin isi, dan unduh `.eml` — tanpa email otomatis dan tanpa klaim pembayaran terverifikasi.
@@ -220,7 +221,7 @@ Hasil Lighthouse (build produksi, Chrome headless, 21 Oktober 2026):
 | Preset            | Performance                          | Accessibility | Best Practices | SEO     |
 | ----------------- | ------------------------------------ | ------------- | -------------- | ------- |
 | Desktop           | **100**                              | **100**       | **100**        | **100** |
-| Mobile (simulasi) | **93** (run terakhir; variasi 87–93) | **100**       | **100**        | **100** |
+| Mobile (simulasi) | **88** (run terakhir; variasi 87–93) | **100**       | **100**        | **100** |
 
 Target mobile ≥ 90 belum konsisten karena TBT hidrasi React pada simulasi CPU 4×. Ini dicatat sebagai risiko, bukan diklaim PASS. Semua temuan aksesibilitas serius sudah diperbaiki.
 

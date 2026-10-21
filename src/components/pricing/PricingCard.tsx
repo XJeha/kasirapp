@@ -1,4 +1,5 @@
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { PlanFeatures } from "@/components/pricing/PlanFeatures";
 import { TrackedPlanLink } from "@/components/pricing/TrackedPlanLink";
 import { Badge } from "@/components/ui/Badge";
 import { buttonStyles } from "@/components/ui/Button";
@@ -58,21 +59,7 @@ export function PricingCard({ plan, className }: { plan: Plan; className?: strin
         <ArrowRight className="size-4" aria-hidden="true" />
       </TrackedPlanLink>
 
-      <div className="mt-6 border-t border-line pt-5">
-        <p className="text-[11px] font-semibold tracking-wide text-ink-muted uppercase">
-          Yang Anda dapatkan
-        </p>
-        <ul className="mt-3 space-y-3">
-          {plan.features.map((feature) => (
-            <li key={feature} className="flex items-start gap-2.5 text-sm text-ink-soft">
-              <span className="mt-0.5 grid size-4.5 shrink-0 place-items-center rounded-full bg-success-soft">
-                <Check className="size-2.5 text-success" strokeWidth={3} aria-hidden="true" />
-              </span>
-              {feature}
-            </li>
-          ))}
-        </ul>
-      </div>
+      <PlanFeatures planId={plan.id} planName={plan.name} features={plan.features} />
     </article>
   );
 }
