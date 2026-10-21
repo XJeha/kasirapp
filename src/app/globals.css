@@ -1,0 +1,176 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens — single source of truth for color, typography, elevation.
+ * Components should use these Tailwind theme utilities instead of raw hex values.
+ */
+@theme {
+  --font-sans:
+    var(--font-plus-jakarta), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Brand */
+  --color-brand: #2557d6;
+  --color-brand-strong: #1b43ae;
+  --color-brand-soft: #eef3ff;
+  --color-brand-line: #d9e4ff;
+
+  /* Supporting accent */
+  --color-accent: #0f9e8e;
+  --color-accent-strong: #0b7c70;
+  --color-accent-soft: #e7f7f4;
+
+  /* Surfaces */
+  --color-canvas: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f6f8fc;
+  --color-surface-sunken: #eef2f9;
+
+  /* Text */
+  --color-ink: #0c1a33;
+  --color-ink-soft: #45536b;
+  --color-ink-muted: #5b6a80;
+
+  /* Lines */
+  --color-line: #e3e8f1;
+  --color-line-strong: #cfd8e6;
+
+  /* Feedback */
+  --color-success: #0e7c5a;
+  --color-success-soft: #e9f6f1;
+  --color-warning: #a95c07;
+  --color-warning-soft: #fff6e8;
+  --color-danger: #b42318;
+  --color-danger-soft: #fdf1f0;
+
+  /* Charts */
+  --color-chart-1: #2557d6;
+  --color-chart-2: #0f9e8e;
+  --color-chart-3: #d99a22;
+  --color-chart-4: #7c6cd6;
+  --color-chart-5: #94a3b8;
+
+  /* Elevation */
+  --shadow-card: 0 1px 2px rgb(12 26 51 / 0.04), 0 12px 32px -24px rgb(12 26 51 / 0.24);
+  --shadow-float: 0 20px 50px -28px rgb(12 26 51 / 0.35);
+  --shadow-window: 0 28px 80px -40px rgb(12 26 51 / 0.4), 0 4px 12px -6px rgb(12 26 51 / 0.12);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    /* Keep in-page anchors clear of the sticky header. */
+    scroll-padding-top: 5.5rem;
+  }
+
+  body {
+    @apply bg-canvas font-sans text-ink antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply text-balance;
+  }
+
+  p {
+    @apply text-pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background-color: var(--color-brand-line);
+    color: var(--color-ink);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer utilities {
+  /* Subtle engineering grid used behind the hero and CTA surfaces. */
+  .bg-grid-soft {
+    background-image:
+      linear-gradient(to right, rgb(12 26 51 / 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(12 26 51 / 0.045) 1px, transparent 1px);
+    background-size: 44px 44px;
+  }
+
+  .bg-grid-faint {
+    background-image:
+      linear-gradient(to right, rgb(255 255 255 / 0.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.07) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .mask-fade-bottom {
+    -webkit-mask-image: linear-gradient(to bottom, #000 45%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 45%, transparent 100%);
+  }
+
+  .mask-fade-x {
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  /**
+   * Menunda render section yang jauh dari viewport. Browser tetap mem-parse
+   * markup tetapi melewati style/layout/paint sampai section mendekati layar.
+   * Jangan dipakai pada section yang menjadi target anchor navigasi.
+   */
+  .section-defer {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 720px;
+  }
+
+  .animate-rise {
+    animation: rise 0.55s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  }
+
+  .animate-fade {
+    animation: fade 0.4s ease-out both;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Recharts focus rings are handled by wrapping regions; remove the default SVG outline. */
+.recharts-wrapper:focus,
+.recharts-surface:focus {
+  outline: none;
+}
