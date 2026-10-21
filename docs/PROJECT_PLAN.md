@@ -63,6 +63,8 @@ Repository awal hanya berisi `AGENTS.md`, PRD, prompt implementasi, dan folder `
 - Next.js 16 di Windows memiliki bug path RSC segment (issue #85374): file ditulis `__next.<segmen>/__PAGE__.txt` tetapi browser meminta `__next.<segmen>.__PAGE__.txt`.
 - Node.js minimum Next.js 16 adalah 20.9.0.
 - `npm audit --omit=dev` bersih; advisory `braces` tersisa hanya pada tooling lint dev.
+- Cloudflare Workers Static Assets mendukung `_headers` dan `_redirects` native, serta `html_handling`/`not_found_handling` untuk SSG (dokumentasi Cloudflare, diakses 21 Oktober 2026).
+- Workers Builds memakai versi Wrangler dari `package.json`; build image default Node 24.18.0.
 
 ### Belum terverifikasi
 
@@ -166,6 +168,7 @@ Tidak ada. Tidak ada data pengguna yang disimpan di server.
 
 1. Inspeksi repo dan requirement.
 2. Setup Next.js, TypeScript, Tailwind, lint, test.
+   2b. Konfigurasi deploy Cloudflare Workers (`wrangler.jsonc`, Node, env URL).
 3. Design token dan komponen UI dasar.
 4. Header/footer/layout.
 5. Section landing page + mockup.

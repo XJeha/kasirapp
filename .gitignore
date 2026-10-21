@@ -12,6 +12,10 @@ next-env.d.ts
 /playwright-report
 /test-results
 
+# cloudflare / wrangler
+/.wrangler/
+.dev.vars
+
 # misc
 .DS_Store
 *.pem

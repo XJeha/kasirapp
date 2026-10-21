@@ -19,6 +19,29 @@ npm run preview   # http://127.0.0.1:4173
 
 `serve` hanya untuk pratinjau lokal dan test, bukan runtime produksi.
 
+## Cloudflare Workers (target deploy awal)
+
+Repository sudah memiliki `wrangler.jsonc` untuk deploy **static assets** ke Worker `kasirapp`:
+
+- Build command: `npm run build`
+- Deploy command: `npx wrangler deploy`
+- Assets: `./out`
+- `html_handling`: `auto-trailing-slash`
+- `not_found_handling`: `404-page`
+- Wrangler: `4.151.3` (devDependency)
+- Node build: `.node-version` = `24.18.0`
+
+Validasi lokal:
+
+```bash
+npm run build
+npm run deploy:check
+```
+
+Set build variable `NEXT_PUBLIC_SITE_URL` ke URL `workers.dev` atau domain final agar canonical/OG/sitemap benar. `_headers` didukung native oleh Workers Static Assets.
+
+Panduan lengkap: [CLOUDFLARE_DEPLOY.md](CLOUDFLARE_DEPLOY.md).
+
 ## Kebutuhan host
 
 - HTTPS wajib.
@@ -35,7 +58,8 @@ Pengaturan:
 
 - Build command: `npm run build`
 - Publish directory: `out`
-- Node version: >= 20.9 (disarankan 24 LTS)
+- Node version: >= 22 (disarankan 24 LTS)
+- Build variable: `NEXT_PUBLIC_SITE_URL` = URL produksi
 - `public/_headers` otomatis disalin ke root output.
 
 Netlify dan Cloudflare Pages membaca `_headers` untuk menerapkan CSP dan header lainnya.
@@ -96,7 +120,7 @@ Referensi: <https://github.com/vercel/next.js/issues/85374>
 
 ## Checklist sebelum publikasi
 
-1. Ganti `siteConfig.url` dengan domain produksi.
+1. Set `NEXT_PUBLIC_SITE_URL` ke domain produksi (build variable Cloudflare).
 2. Ganti nama merek, logo (`src/components/layout/Logo.tsx`, `src/app/icon.svg`), dan OG image.
 3. Periksa email support dan nomor WhatsApp (`0895-3363-99300`); ganti bila diperlukan.
 4. Ganti harga, fitur paket, dan diskon durasi.
@@ -104,7 +128,7 @@ Referensi: <https://github.com/vercel/next.js/issues/85374>
 6. Perbarui estimasi aktivasi dan jam operasional.
 7. Isi identitas legal dan tanggal pembaruan; tinjau dokumen legal.
 8. Tambahkan testimoni asli atau biarkan section nonaktif.
-9. Jalankan `npm run verify` dan `npm run test:e2e`.
+9. Jalankan `npm run verify` (termasuk `deploy:check`) dan `npm run test:e2e`.
 10. Uji Lighthouse pada URL produksi (mobile dan desktop).
 11. Verifikasi header keamanan dengan `curl -I` atau securityheaders.com.
 12. Uji alur order → payment → email konfirmasi di perangkat nyata.

@@ -9,6 +9,19 @@
  */
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
+/**
+ * URL publik ditentukan saat build melalui NEXT_PUBLIC_SITE_URL agar domain
+ * workers.dev/custom domain tidak perlu di-hardcode. Fallback example.com
+ * adalah placeholder yang jelas.
+ */
+function resolveSiteUrl(): string {
+  const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (!raw) return "https://example.com";
+
+  const normalized = raw.replace(/\/+$/, "");
+  return /^https?:\/\//.test(normalized) ? normalized : "https://example.com";
+}
+
 export const siteConfig = {
   /**
    * Nama merek kerja untuk template ini. Ganti dengan merek final Anda.
@@ -19,8 +32,11 @@ export const siteConfig = {
   tagline: "Aplikasi kasir untuk bisnis yang ingin lebih rapi.",
   description:
     "Aplikasi kasir (POS) untuk mencatat transaksi, mengelola produk dan stok, serta memantau laporan penjualan bisnis Anda dalam satu sistem.",
-  /** PLACEHOLDER — ganti dengan domain produksi sebelum deploy. */
-  url: "https://example.com",
+  /**
+   * Diisi dari NEXT_PUBLIC_SITE_URL saat build (Cloudflare Build Variable).
+   * Fallback: placeholder https://example.com.
+   */
+  url: resolveSiteUrl(),
   locale: "id_ID",
   language: "id",
 

@@ -18,6 +18,7 @@ Landing page statis Kasira: seluruh route, alur pesanan, pembayaran manual, konf
 | Browser E2E    | Chromium (Playwright 1.64.1)                                            |
 | Lighthouse     | Lighthouse CLI terbaru via `npx`, Chrome headless (Playwright Chromium) |
 | Preview server | `serve out -l 4173`                                                     |
+| Deploy target  | Cloudflare Workers Static Assets, Wrangler 4.151.3                      |
 
 ## Format
 
@@ -84,6 +85,26 @@ npm run build
 ```
 
 13 halaman statis dihasilkan ke `out/`, termasuk `404.html`, `robots.txt`, `sitemap.xml`, `icon.svg`. `postbuild` memetakan 8 file RSC segment untuk workaround Windows.
+
+## Deployment configuration
+
+Status: **PASS**
+
+```bash
+npm run build
+npm run deploy:check
+```
+
+- Wrangler 4.151.3, config `wrangler.jsonc` (assets-only, `out/`).
+- `wrangler deploy --dry-run` berhasil membaca 103 file aset.
+- Uji runtime lokal dengan `wrangler dev`:
+  - `/` → 200 dengan CSP, HSTS, `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`.
+  - `/pricing` → 307 ke `/pricing/`.
+  - `/pricing/` → 200 `text/html`.
+  - `/tidak-ada` → 404 memakai `404.html`.
+  - `/_headers` → 404 (tidak disajikan sebagai aset).
+- `NEXT_PUBLIC_SITE_URL` diuji: canonical, robots, dan sitemap mengikuti URL build; trailing slash dinormalisasi.
+- Tanpa env, canonical kembali ke fallback `https://example.com`.
 
 ## E2E
 

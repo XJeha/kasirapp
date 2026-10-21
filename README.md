@@ -41,10 +41,11 @@ Yang **tidak ada** (sesuai requirement):
 | Tailwind CSS                             | 4.3.3           |
 | Recharts                                 | 3.10.1          |
 | Lucide React                             | 1.60.0          |
+| Wrangler (Cloudflare deploy)             | 4.151.3         |
 | Vitest                                   | 5.0.5           |
 | Playwright + axe-core                    | 1.64.1 / 4.14.0 |
 
-Node.js yang dibutuhkan: **>= 20.9.0** (dari `engines` Next.js). Dikembangkan dan diverifikasi dengan Node 24.19.0 di Windows.
+Node.js yang dibutuhkan: **>= 22.0.0** (Wrangler 4.151.3; Next.js sendiri minimal 20.9.0). Dikembangkan dan diverifikasi dengan Node 24.19.0 di Windows. Build Cloudflare memakai `.node-version` = `24.18.0`.
 
 ---
 
@@ -54,6 +55,7 @@ Node.js yang dibutuhkan: **>= 20.9.0** (dari `engines` Next.js). Dikembangkan da
 npm install
 npm run dev          # http://localhost:3000
 npm run build        # static export ke out/ + perbaikan RSC Windows
+npm run deploy:check # validasi konfigurasi Cloudflare (wrangler --dry-run)
 npm run preview      # http://127.0.0.1:4173 (serve out/)
 ```
 
@@ -65,11 +67,12 @@ npm run lint
 npm run typecheck
 npm test
 npm run build
+npm run deploy:check
 npx playwright install chromium   # sekali saja
 npm run test:e2e
 ```
 
-`npm run verify` menjalankan format check, lint, typecheck, unit test, dan build.
+`npm run verify` menjalankan format check, lint, typecheck, unit test, build, dan validasi konfigurasi deploy Cloudflare.
 
 ---
 
@@ -120,7 +123,8 @@ src/
 
 | File                                                        | Yang harus diganti                                                     | Nilai sekarang                                                     |
 | ----------------------------------------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| `src/data/site.ts`                                          | `name`, `tagline`, `description`, `url`                                | `Kasira`, `https://example.com`                                    |
+| `src/data/site.ts`                                          | `name`, `tagline`, `description`                                       | `Kasira`                                                           |
+| Build env `NEXT_PUBLIC_SITE_URL`                            | URL produksi (workers.dev/custom domain)                               | belum diisi → fallback `https://example.com`                       |
 | `src/data/site.ts`                                          | `contact.email`                                                        | `heen.chii19@gmail.com` (sudah diisi)                              |
 | `src/data/site.ts`                                          | `contact.whatsapp`, `whatsappDisplay`                                  | `62895336399300` / `0895-3363-99300` (sudah diisi)                 |
 | `src/data/site.ts`                                          | `operations.activationEstimate`, `supportHours`                        | contoh `1×24 jam kerja`, `Senin–Sabtu, 09.00–17.00 WIB`            |
@@ -132,7 +136,7 @@ src/
 | `src/data/site.ts`                                          | `testimonialsEnabled`                                                  | `false`                                                            |
 | `public/og-image.png`, `src/app/icon.svg`                   | Ganti dengan brand final jika perlu                                    | aset contoh                                                        |
 | `src/app/privacy-policy/page.tsx`, `src/app/terms/page.tsx` | `[TANGGAL PEMBARUAN]`, `[KEBIJAKAN PENGEMBALIAN DANA]`, `[YURISDIKSI]` | placeholder                                                        |
-| `public/_headers`                                           | Domain/CSP sesuai hosting                                              | contoh Netlify/Cloudflare                                          |
+| `public/_headers`                                           | Domain/CSP sesuai hosting                                              | contoh Netlify/Pages/Workers                                       |
 
 Cari placeholder secara global:
 
@@ -193,7 +197,7 @@ Integrasi GTM/GA nantinya cukup menambahkan listener atau mengisi `window.dataLa
 - Tidak ada autentikasi, database, API, atau rahasia di frontend.
 - Form memvalidasi input di klien; data hanya disimpan sementara di `sessionStorage`; tidak ada data pembayaran sensitif yang diminta.
 - Rekening/e-wallet/QRIS adalah data publik merchant, bukan kredensial.
-- `public/_headers` menyediakan CSP, HSTS, `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, dan `Permissions-Policy` untuk host yang mendukung (Netlify/Cloudflare Pages).
+- `public/_headers` menyediakan CSP, HSTS, `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, dan `Permissions-Policy`. Cloudflare Workers Static Assets membacanya secara native.
 - CSP memakai `script-src 'unsafe-inline'` karena Next.js menempelkan bootstrap RSC dan JSON-LD inline pada HTML statis. Ini batasan yang didokumentasikan; lihat `docs/SECURITY.md` untuk rencana pengetatan.
 - Audit produksi: `npm audit --omit=dev` → **0 vulnerabilities**.
 - Audit penuh masih melaporkan advisory `braces` (dev-only, transitive dari `eslint-config-next`; belum ada rilis perbaikan). Tidak masuk bundle produksi.
@@ -226,11 +230,18 @@ Target mobile ≥ 90 belum konsisten karena TBT hidrasi React pada simulasi CPU 
 
 Output ada di `out/`. Tidak perlu Node.js di produksi.
 
-- **Netlify / Cloudflare Pages:** publish `out`, dan `public/_headers` akan disalin ke root output.
+Target deploy awal: **Cloudflare Workers Static Assets** (assets-only). Konfigurasi sudah disiapkan di `wrangler.jsonc`.
+
+- **Cloudflare Workers:**
+  - Build command: `npm run build`
+  - Deploy command: `npx wrangler deploy`
+  - Build variable: `NEXT_PUBLIC_SITE_URL` = URL `workers.dev`/domain final
+  - `_headers` dan `_redirects` didukung native; `404.html` dipakai via `not_found_handling`.
+- **Netlify / Cloudflare Pages:** publish `out`; `_headers` disalin ke root output.
 - **Nginx:** arahkan root ke `out`, gunakan `try_files $uri $uri/ =404;` (karena trailing slash), dan terapkan header dari `_headers` di konfigurasi server.
 - **GitHub Pages / S3 / CDN:** pastikan host melayani `index.html` untuk path berakhiran `/` dan memetakan 404 ke `404.html`.
 
-Panduan dan contoh konfigurasi: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+Panduan deploy Cloudflare langkah demi langkah: [docs/CLOUDFLARE_DEPLOY.md](docs/CLOUDFLARE_DEPLOY.md). Panduan host lain: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 ### Catatan Windows
 

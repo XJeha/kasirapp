@@ -80,7 +80,7 @@ Status: **PASS**.
 
 ## Headers (production)
 
-`public/_headers` menyediakan:
+`public/_headers` disalin ke `out/` dan dibaca native oleh Cloudflare Workers Static Assets (serta Pages/Netlify). File ini menyediakan:
 
 - `Content-Security-Policy` (default-src self; object-src none; frame-ancestors none; form-action self; upgrade-insecure-requests)
 - `Strict-Transport-Security`
@@ -112,7 +112,7 @@ Tidak ada pada runtime produksi. Satu advisory dev-only (`braces`) diterima deng
 
 ### Medium
 
-- **Placeholder data**: rekening, QRIS, email, domain, dan identitas legal masih contoh. Jika dipublikasikan tanpa diganti, pengguna dapat diarahkan ke informasi palsu. Mitigasi: dokumentasi, label “data contoh” pada UI pembayaran, checklist deployment.
+- **Placeholder data**: rekening, QRIS, domain, dan identitas legal masih contoh. Email support dan WhatsApp sudah diisi. Jika dipublikasikan tanpa mengganti data pembayaran/legal, pengguna dapat diarahkan ke informasi palsu. Mitigasi: dokumentasi, label “data contoh” pada UI pembayaran, checklist deployment.
 - **Persepsi pembayaran**: halaman sukses tidak boleh menyiratkan verifikasi. Sudah dimitigasi dengan copy “Menunggu Konfirmasi” dan penjelasan verifikasi manual.
 
 ### Low
@@ -124,7 +124,7 @@ Tidak ada pada runtime produksi. Satu advisory dev-only (`braces`) diterima deng
 
 ## Risiko yang belum diverifikasi
 
-- Header keamanan aktual pada hosting produksi (belum deploy).
+- Header keamanan aktual pada hosting produksi (belum deploy; `_headers` sudah disiapkan untuk Cloudflare Workers).
 - Perilaku CSP pada browser selain Chromium.
 - Validitas QRIS/rekening merchant asli (masih placeholder).
 - Audit dependensi pada masa mendatang (perlu `npm audit` berkala).
