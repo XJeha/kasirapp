@@ -177,13 +177,13 @@ Status: **PASS untuk SEO/BP/A11y; PARTIAL untuk Performance mobile**
 
 Dijalankan terhadap build produksi di `http://127.0.0.1:4173/`.
 
-| Preset                                            | Performance | Accessibility | Best Practices | SEO     | LCP       | TBT        |
-| ------------------------------------------------- | ----------- | ------------- | -------------- | ------- | --------- | ---------- |
-| Desktop                                           | **100**     | **100**       | **100**        | **100** | 0,8 s     | 30 ms      |
-| Mobile (run terakhir, setelah disclosure pricing) | **88**      | 100           | 100            | 100     | 2,6 s     | 380 ms     |
-| Mobile (variasi)                                  | 88–93       | 100           | 100            | 100     | 2,5–2,8 s | 250–380 ms |
+| Preset                                        | Performance | Accessibility | Best Practices | SEO     | LCP       | TBT        |
+| --------------------------------------------- | ----------- | ------------- | -------------- | ------- | --------- | ---------- |
+| Desktop                                       | **100**     | **100**       | **100**        | **100** | 0,8 s     | 30 ms      |
+| Mobile (run terakhir, setelah refresh visual) | **87**      | 100           | 100            | 100     | 2,7 s     | 310 ms     |
+| Mobile (variasi)                              | 87–93       | 100           | 100            | 100     | 2,5–2,8 s | 250–380 ms |
 
-Skor mobile bervariasi karena simulasi CPU/network dan beban mesin. Beberapa run mencapai ≥90 (93), run terakhir 88; hasil ini belum dianggap konsisten. Penyebab utama: TBT hidrasi React dan ukuran DOM mockup. Sudah dioptimalkan dengan lazy chart, font lokal, `content-visibility`, dan pengurangan client component kartu harga.
+Skor mobile bervariasi karena simulasi CPU/network dan beban mesin. Beberapa run mencapai ≥90 (93), run terakhir 87; hasil ini belum dianggap konsisten. Penyebab utama: TBT hidrasi React dan ukuran DOM mockup. Sudah dioptimalkan dengan lazy chart, font lokal, `content-visibility`, dan pengurangan client component kartu harga.
 
 SEO: metadata unik, canonical, OG/Twitter, sitemap, robots, JSON-LD, `noindex` untuk halaman pembayaran.
 
@@ -208,6 +208,7 @@ Status: **PASS**
 8. **Duplikasi label langkah & stepper terpotong** — label pendek di mobile, badge header dihapus.
 9. **Klik konfirmasi email tidak memberi respons tanpa mail client** — CTA kini membuka dialog email dengan Gmail compose, `mailto:`, salin isi, dan unduh `.eml`; scroll region dibuat focusable agar lolos axe.
 10. **Halaman pricing terlalu panjang di Android** — rincian fitur tiap paket dan tabel perbandingan dilipat menjadi disclosure dengan chevron di mobile; desktop tetap terbuka.
+11. **Permukaan visual terlalu datar** — kanvas off-white, aurora hero, tekstur titik, gradient pricing, CTA gelap berlapis, serta badge trust faktual ditambahkan tanpa klaim palsu.
 
 ## Belum diverifikasi
 

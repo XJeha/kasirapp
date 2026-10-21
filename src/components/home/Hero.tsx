@@ -1,21 +1,26 @@
-import { Check, ShieldCheck } from "lucide-react";
+import { CreditCard, LockKeyhole, ShieldCheck, UserRoundCheck } from "lucide-react";
 import { Container } from "@/components/layout/Section";
 import { DashboardMockup } from "@/components/mockups/DashboardMockup";
 import { Badge } from "@/components/ui/Badge";
 import { HeroCta } from "@/components/home/HeroCta";
 
-const highlights = ["Transaksi cepat", "Stok terpantau", "Laporan rapi"];
+const trustPoints = [
+  { label: "Verifikasi manual", icon: ShieldCheck },
+  { label: "Tanpa akun", icon: UserRoundCheck },
+  { label: "Data di browser", icon: LockKeyhole },
+  { label: "Tanpa PIN/OTP", icon: CreditCard },
+];
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden border-b border-line bg-white">
+    <section className="bg-aurora relative overflow-hidden border-b border-line">
       <div
         aria-hidden="true"
-        className="bg-grid-soft mask-fade-bottom absolute inset-0 opacity-70"
+        className="bg-grid-soft mask-fade-bottom absolute inset-0 opacity-55"
       />
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 top-0 h-[520px] bg-[radial-gradient(65%_85%_at_75%_0%,rgba(37,87,214,0.12),transparent_70%)]"
+        className="absolute -top-24 -left-24 size-72 rounded-full bg-accent/10 blur-3xl"
       />
       <Container className="relative">
         <div className="grid items-center gap-12 py-14 sm:py-16 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-14 lg:py-24">
@@ -38,15 +43,18 @@ export function Hero() {
 
             <p className="mt-5 flex items-start gap-2 text-[13px] leading-relaxed text-ink-muted">
               <ShieldCheck className="mt-0.5 size-4 shrink-0 text-success" aria-hidden="true" />
-              Untuk retail, kafe, restoran, minimarket, dan UMKM. Informasi produk dapat dilihat
-              tanpa membuat akun.
+              Untuk retail, kafe, restoran, minimarket, dan UMKM. Dibuat untuk operasional harian
+              yang lebih tertata.
             </p>
 
-            <ul className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-line pt-5">
-              {highlights.map((item) => (
-                <li key={item} className="flex items-center gap-1.5 text-[13px] text-ink-soft">
-                  <Check className="size-3.5 text-accent" strokeWidth={2.5} aria-hidden="true" />
-                  {item}
+            <ul className="mt-7 grid grid-cols-2 gap-x-4 gap-y-3 border-t border-line pt-5 sm:flex sm:flex-wrap sm:items-center sm:gap-x-6">
+              {trustPoints.map(({ label, icon: Icon }) => (
+                <li
+                  key={label}
+                  className="flex items-center gap-1.5 text-[12px] font-medium text-ink-soft"
+                >
+                  <Icon className="size-3.5 text-brand" strokeWidth={2} aria-hidden="true" />
+                  {label}
                 </li>
               ))}
             </ul>

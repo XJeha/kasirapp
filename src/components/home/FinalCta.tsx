@@ -8,7 +8,7 @@ export function FinalCta() {
   return (
     <section id="kontak" className="py-16 sm:py-20 lg:py-24">
       <Container>
-        <div className="relative overflow-hidden rounded-3xl bg-ink px-5 py-10 sm:px-10 sm:py-12 lg:px-14 lg:py-16">
+        <div className="relative overflow-hidden rounded-3xl bg-[linear-gradient(135deg,#0c1a33_0%,#102443_55%,#0a1b34_100%)] px-5 py-10 sm:px-10 sm:py-12 lg:px-14 lg:py-16">
           <div
             aria-hidden="true"
             className="bg-grid-faint mask-fade-bottom absolute inset-0 opacity-60"
@@ -16,6 +16,10 @@ export function FinalCta() {
           <div
             aria-hidden="true"
             className="absolute -top-24 -right-16 size-80 rounded-full bg-brand/25 blur-3xl"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute -bottom-28 -left-16 size-72 rounded-full bg-accent/10 blur-3xl"
           />
 
           <div className="relative grid gap-10 lg:grid-cols-[1.25fr_0.75fr] lg:items-center lg:gap-16">

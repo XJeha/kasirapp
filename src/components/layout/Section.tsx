@@ -32,7 +32,7 @@ export function Section({
       className={cn(
         "py-16 sm:py-20 lg:py-28",
         defer && !id && "section-defer",
-        tone === "muted" && "border-y border-line/80 bg-surface-muted",
+        tone === "muted" && "bg-dots-soft border-y border-line/80 bg-surface-muted",
         tone === "brand" && "border-y border-brand-line bg-brand-soft/60",
         className,
       )}

@@ -7,7 +7,7 @@ import { plans, pricingNote } from "@/data/pricing";
 
 export function Pricing() {
   return (
-    <Section id="harga" labelledBy="pricing-title">
+    <Section id="harga" labelledBy="pricing-title" className="bg-pricing">
       <SectionHeading
         eyebrow="Harga"
         id="pricing-title"

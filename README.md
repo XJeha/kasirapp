@@ -11,6 +11,7 @@ Situs marketing dan penjualan statis untuk aplikasi kasir/POS. Dibangun dengan N
 Yang **ada**:
 
 - Landing page lengkap: hero + mockup dashboard, kategori bisnis, masalah/solusi, 10 fitur, dua showcase produk, dashboard demo, analitik interaktif, cara kerja, manfaat, harga, metode pembayaran, FAQ, CTA, dan footer.
+- Latar berlapis: kanvas off-white, aurora halus di hero, tekstur titik pada section, band harga, panel CTA gelap, dan badge trust faktual (verifikasi manual, tanpa akun, data di browser, tanpa PIN/OTP).
 - Halaman `/features`, `/pricing`, `/order`, `/payment`, `/payment-success`, `/privacy-policy`, `/terms`.
 - Pemilihan paket dan durasi dengan perhitungan harga + diskon di browser.
 - Rincian fitur tiap paket dan tabel perbandingan dilipat menjadi dropdown pada mobile; desktop tetap menampilkan semuanya.
@@ -221,7 +222,7 @@ Hasil Lighthouse (build produksi, Chrome headless, 21 Oktober 2026):
 | Preset            | Performance                          | Accessibility | Best Practices | SEO     |
 | ----------------- | ------------------------------------ | ------------- | -------------- | ------- |
 | Desktop           | **100**                              | **100**       | **100**        | **100** |
-| Mobile (simulasi) | **88** (run terakhir; variasi 87–93) | **100**       | **100**        | **100** |
+| Mobile (simulasi) | **87** (run terakhir; variasi 87–93) | **100**       | **100**        | **100** |
 
 Target mobile ≥ 90 belum konsisten karena TBT hidrasi React pada simulasi CPU 4×. Ini dicatat sebagai risiko, bukan diklaim PASS. Semua temuan aksesibilitas serius sudah diperbaiki.
 

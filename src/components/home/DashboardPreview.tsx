@@ -13,7 +13,7 @@ const includes = [
 
 export function DashboardPreview() {
   return (
-    <Section id="demo" labelledBy="dashboard-title">
+    <Section id="demo" labelledBy="dashboard-title" className="bg-dashboard-ambient">
       <SectionHeading
         eyebrow="Demo produk"
         id="dashboard-title"
