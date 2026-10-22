@@ -7,23 +7,25 @@ export type ButtonVariant =
 export type ButtonSize = "sm" | "md" | "lg";
 
 const baseStyles =
-  "inline-flex items-center justify-center gap-2 rounded-[10px] font-semibold transition-colors duration-200 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-60";
+  "inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-300 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-60";
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    "bg-brand text-white shadow-[0_1px_2px_rgba(12,26,51,0.12)] hover:bg-brand-strong active:bg-brand-strong",
+    "bg-brand text-white shadow-[0_12px_28px_-14px_rgba(207,58,74,0.75)] hover:-translate-y-0.5 hover:bg-brand-strong hover:shadow-[0_18px_34px_-14px_rgba(207,58,74,0.8)] active:translate-y-0",
   secondary:
-    "border border-line-strong bg-white text-ink hover:border-brand/40 hover:bg-brand-soft/70",
+    "border border-line-strong bg-white text-ink hover:-translate-y-0.5 hover:border-ink/30 hover:bg-surface-muted",
   ghost: "text-ink-soft hover:bg-surface-muted hover:text-ink",
-  inverse: "bg-white text-brand-strong hover:bg-brand-soft",
-  "outline-inverse": "border border-white/25 text-white hover:border-white/50 hover:bg-white/10",
-  whatsapp: "bg-[#0b7a3d] text-white hover:bg-[#096833] active:bg-[#096833]",
+  inverse: "bg-white text-brand-strong hover:-translate-y-0.5 hover:bg-brand-soft",
+  "outline-inverse":
+    "border border-white/45 text-white hover:-translate-y-0.5 hover:border-white hover:bg-white hover:text-ink",
+  whatsapp:
+    "bg-[#0f7a3d] text-white shadow-[0_12px_26px_-14px_rgba(15,122,61,0.8)] hover:-translate-y-0.5 hover:bg-[#0b6533] active:translate-y-0",
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
-  sm: "h-9 px-3.5 text-sm",
-  md: "h-11 px-5 text-sm",
-  lg: "h-12 px-6 text-[15px]",
+  sm: "h-9 px-4 text-[12px] tracking-[0.08em] uppercase",
+  md: "h-11 px-6 text-[13px] tracking-[0.06em]",
+  lg: "h-12 px-7 text-[14px] tracking-[0.05em]",
 };
 
 export function buttonStyles({

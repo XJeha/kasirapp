@@ -12,7 +12,7 @@ export function Analytics() {
         description="Gunakan grafik penjualan, distribusi metode pembayaran, dan daftar produk terlaris untuk melihat kondisi bisnis secara lebih terukur. Coba filter rentang waktu di bawah untuk melihat cara data ditampilkan."
       />
 
-      <div className="mt-10">
+      <div data-reveal="zoom" className="mt-10">
         <AnalyticsLazy />
       </div>
     </Section>

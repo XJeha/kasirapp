@@ -77,7 +77,7 @@ export default function FeaturesPage() {
             return (
               <div key={category} id={`kategori-${slugify(category)}`} className="scroll-mt-28">
                 <div className="flex items-center gap-3 border-b border-line pb-4">
-                  <h2 className="rounded-full bg-brand-soft px-2.5 py-1 text-[10px] font-bold tracking-wide text-brand uppercase">
+                  <h2 className="rounded-full bg-brand-soft px-2.5 py-1 text-[10px] font-bold tracking-wide text-brand-strong uppercase">
                     {category}
                   </h2>
                   <span className="text-xs text-ink-muted">{categoryFeatures.length} fitur</span>

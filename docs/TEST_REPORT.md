@@ -1,6 +1,41 @@
 # Test & Quality Report
 
-Tanggal: 21 Oktober 2026
+Tanggal baseline: 21 Oktober 2026 · Update redesign visual: 23 Oktober 2026
+
+## Update redesign visual (23 Oktober 2026)
+
+Perubahan: landing page dibangun ulang mengikuti struktur dan animasi referensi — hero gelap + parallax + partikel, dua mockup HP CSS, showcase mockup, fitur tiga kolom, demo dashboard gelap, pricing, CTA gelap, FAQ, footer gelap, dan reveal on scroll.
+
+Quality gate yang dijalankan ulang:
+
+| Pemeriksaan                  | Status  | Catatan                                                |
+| ---------------------------- | ------- | ------------------------------------------------------ |
+| Format (`prettier`)          | PASS    | `npm run format:check`                                 |
+| Lint                         | PASS    | `npm run lint`                                         |
+| Typecheck                    | PASS    | `npx tsc --noEmit`                                     |
+| Unit test                    | PASS    | 35 test / 6 file                                       |
+| Build static export          | PASS    | 13 halaman                                             |
+| Deploy check (Wrangler)      | PASS    | `wrangler deploy --dry-run`                            |
+| E2E Playwright               | PASS    | 33 test                                                |
+| Accessibility (axe)          | PASS    | 0 pelanggaran serious/critical pada seluruh pemindaian |
+| Responsive overflow          | PASS    | 320, 360, 390, 768, 1024, 1280, 1440 px                |
+| Lighthouse desktop           | PASS    | Performance 97, A11y/BP/SEO 100                        |
+| Lighthouse mobile (simulasi) | PARTIAL | Performance 68–81 (run terakhir 77); A11y/BP/SEO 100   |
+
+### Perbaikan setelah audit
+
+- Parallax sebelumnya memakai `window.scrollY` absolut sehingga lapisan dekoratif CTA/demo keluar dari section; kini dihitung relatif terhadap posisi section.
+- H1 hero dianimasikan hanya dengan transform (bukan opacity) agar menjadi LCP candidate sejak awal; LCP turun dari ±3,0 s menjadi ±0,8 s pada desktop Lighthouse.
+- `will-change` permanen pada puluhan elemen reveal dihapus setelah animasi selesai.
+- `backdrop-blur` pada header dihapus; controller reveal + parallax digabung menjadi satu client component/scroll listener.
+- Font Playfair Display italic lokal ditambahkan agar aksen serif sesuai referensi tanpa request ke Google Fonts.
+- Mockup POS diisi daftar pesanan dan produk tambahan; detail sekunder disembunyikan via container query saat mockup menyempit.
+- Kontras chip “Tunai” di mockup diperbaiki; tombol support tidak lagi memakai animasi box-shadow infinite.
+- Label navigasi “Home” diganti “Beranda”; OG image 1200×630 dibuat ulang sesuai branding baru.
+
+Catatan: seluruh mockup, logo, dan ilustrasi dibuat khusus; tidak menyalin aset dari situs referensi. Font Playfair Display memakai SIL Open Font License 1.1.
+
+---
 
 ## Scope
 
@@ -175,15 +210,15 @@ Detail: `docs/SECURITY.md`.
 
 Status: **PASS untuk SEO/BP/A11y; PARTIAL untuk Performance mobile**
 
-Dijalankan terhadap build produksi di `http://127.0.0.1:4173/`.
+Dijalankan terhadap build produksi di `http://127.0.0.1:4173/` pada 23 Oktober 2026.
 
-| Preset                                        | Performance | Accessibility | Best Practices | SEO     | LCP       | TBT        |
-| --------------------------------------------- | ----------- | ------------- | -------------- | ------- | --------- | ---------- |
-| Desktop                                       | **100**     | **100**       | **100**        | **100** | 0,8 s     | 30 ms      |
-| Mobile (run terakhir, setelah refresh visual) | **87**      | 100           | 100            | 100     | 2,7 s     | 310 ms     |
-| Mobile (variasi)                              | 87–93       | 100           | 100            | 100     | 2,5–2,8 s | 250–380 ms |
+| Preset                        | Performance | Accessibility | Best Practices | SEO | LCP    | TBT         | CLS |
+| ----------------------------- | ----------- | ------------- | -------------- | --- | ------ | ----------- | --- |
+| Desktop                       | **97**      | **100**       | **100**        | 100 | 0,8 s  | 140 ms      | 0   |
+| Mobile (run terakhir)         | **77**      | **100**       | **100**        | 100 | 3,1 s  | 480 ms      | 0   |
+| Mobile (variasi beberapa run) | 68–81       | 100           | 100            | 100 | ±3,1 s | 410–1310 ms | 0   |
 
-Skor mobile bervariasi karena simulasi CPU/network dan beban mesin. Beberapa run mencapai ≥90 (93), run terakhir 87; hasil ini belum dianggap konsisten. Penyebab utama: TBT hidrasi React dan ukuran DOM mockup. Sudah dioptimalkan dengan lazy chart, font lokal, `content-visibility`, dan pengurangan client component kartu harga.
+Skor mobile bervariasi karena simulasi CPU 4× dan beban mesin; TBT hidrasi React tetap menjadi penyebab utama. Angka ini dicatat sebagai risiko, bukan klaim PASS untuk target ≥ 90. SEO/BP/A11y stabil 100. Optimasi yang sudah dilakukan: controller reveal/parallax tunggal, `will-change` dilepas, lazy chart, font lokal, dan animasi transform/opacity.
 
 SEO: metadata unik, canonical, OG/Twitter, sitemap, robots, JSON-LD, `noindex` untuk halaman pembayaran.
 
@@ -223,4 +258,4 @@ Status: **PASS**
 
 **READY WITH KNOWN RISKS**
 
-Fitur, build statis, SEO, aksesibilitas, dan alur utama lulus. Risiko yang tersisa adalah sebagian data bisnis placeholder dan skor Performance mobile yang bervariasi (87–93; run terakhir 93). Keduanya terdokumentasi dan tidak menghalangi penggunaan sebagai template; wajib diselesaikan sebelum publikasi komersial.
+Fitur, build statis, SEO, aksesibilitas, dan alur utama lulus. Risiko yang tersisa adalah sebagian data bisnis placeholder dan skor Performance mobile yang bervariasi (68–81; run terakhir 77) akibat TBT hidrasi React. Keduanya terdokumentasi dan tidak menghalangi penggunaan sebagai template; wajib diselesaikan sebelum publikasi komersial.

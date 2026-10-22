@@ -11,12 +11,12 @@ export function Logo({
     <span className={cn("inline-flex items-center gap-2.5", className)}>
       <svg
         viewBox="0 0 32 32"
-        className="size-9 shrink-0"
+        className="size-9 shrink-0 drop-shadow-[0_2px_6px_rgba(207,58,74,0.35)]"
         role="presentation"
         focusable="false"
         aria-hidden="true"
       >
-        <rect x="1" y="1" width="30" height="30" rx="9" fill="var(--color-brand)" />
+        <rect x="1" y="1" width="30" height="30" rx="8" fill="var(--color-brand)" />
         <path d="M10.5 7.75h11v16.5l-2.75-1.7-2.75 1.7-2.75-1.7-2.75 1.7V7.75Z" fill="white" />
         <path
           d="M13.75 12.4h4.5M13.75 16.15h4.5"
@@ -28,12 +28,12 @@ export function Logo({
       </svg>
       <span
         className={cn(
-          "text-[19px] font-extrabold tracking-[-0.03em]",
+          "text-[20px] leading-none font-bold tracking-[-0.02em]",
           tone === "dark" ? "text-ink" : "text-white",
         )}
       >
         Kasira
-        <span className={tone === "dark" ? "text-brand" : "text-white/60"}>.</span>
+        <span className={tone === "dark" ? "text-brand" : "text-white/70"}>.</span>
       </span>
     </span>
   );

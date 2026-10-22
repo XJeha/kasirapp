@@ -78,7 +78,7 @@ export type NavLink = {
 };
 
 export const navLinks: NavLink[] = [
-  { label: "Home", href: "/" },
+  { label: "Beranda", href: "/" },
   { label: "Fitur", href: "/features/" },
   { label: "Demo", href: "/#demo" },
   { label: "Harga", href: "/pricing/" },

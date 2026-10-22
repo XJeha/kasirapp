@@ -14,12 +14,16 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
+  const isHome = pathname === "/";
   const headerRef = useRef<HTMLElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
 
+  // Di beranda header transparan di atas hero lalu menjadi putih saat scroll.
+  const isSolid = !isHome || isScrolled;
+
   useEffect(() => {
-    const onScroll = () => setIsScrolled(window.scrollY > 8);
+    const onScroll = () => setIsScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -61,32 +65,44 @@ export function Header() {
     <header
       ref={headerRef}
       className={cn(
-        "sticky top-0 z-50 border-b bg-white transition-shadow duration-200",
-        isScrolled ? "border-line shadow-[0_1px_12px_rgba(12,26,51,0.06)]" : "border-line/70",
+        "top-0 right-0 left-0 z-50 w-full transition-all duration-300",
+        isHome ? "fixed" : "sticky",
+        isSolid
+          ? "border-b border-line/80 bg-white/95 shadow-[0_10px_30px_-24px_rgba(0,0,0,0.45)]"
+          : "border-b border-transparent bg-transparent",
       )}
     >
       <Container>
-        <div className="flex h-16 items-center justify-between gap-3">
+        <div
+          className={cn(
+            "flex items-center justify-between gap-3 transition-all duration-300",
+            isSolid ? "h-16" : "h-20",
+          )}
+        >
           <Link
             href="/"
             className="rounded-md focus-visible:outline-offset-4"
             aria-label="Kasira — kembali ke beranda"
           >
-            <Logo />
+            <Logo tone={isSolid ? "dark" : "light"} />
           </Link>
 
           <nav aria-label="Navigasi utama" className="hidden lg:block">
-            <ul className="flex items-center gap-0.5">
+            <ul className="flex items-center gap-1">
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
                     aria-current={isActive(link.href) ? "page" : undefined}
                     className={cn(
-                      "inline-flex rounded-md px-3 py-2 text-[13.5px] font-medium transition-colors",
-                      isActive(link.href)
-                        ? "bg-brand-soft text-brand-strong"
-                        : "text-ink-soft hover:bg-surface-muted hover:text-ink",
+                      "inline-flex rounded-full px-3.5 py-2 text-[11px] font-medium tracking-[0.18em] uppercase transition-colors duration-200",
+                      isSolid
+                        ? isActive(link.href)
+                          ? "text-brand"
+                          : "text-ink-soft hover:text-ink"
+                        : isActive(link.href)
+                          ? "text-white"
+                          : "text-white/65 hover:text-white",
                     )}
                   >
                     {link.label}
@@ -98,9 +114,19 @@ export function Header() {
 
           <div className="flex items-center gap-2">
             <div className="hidden md:block">
-              <Link href={primaryCta.href} className={buttonStyles({ size: "sm" })}>
+              <Link
+                href={primaryCta.href}
+                className={buttonStyles({
+                  size: "sm",
+                  className:
+                    "group gap-2 px-5 tracking-[0.1em] shadow-[0_12px_26px_-14px_rgba(207,58,74,0.9)]",
+                })}
+              >
                 {primaryCta.label}
-                <ArrowRight className="size-4" aria-hidden="true" />
+                <ArrowRight
+                  className="size-3.5 transition-transform duration-300 group-hover:translate-x-1"
+                  aria-hidden="true"
+                />
               </Link>
             </div>
 
@@ -111,7 +137,12 @@ export function Header() {
               aria-expanded={isOpen}
               aria-controls="mobile-menu"
               aria-label={isOpen ? "Tutup menu navigasi" : "Buka menu navigasi"}
-              className="inline-flex size-11 items-center justify-center rounded-[10px] border border-line-strong bg-white text-ink transition-colors hover:bg-surface-muted lg:hidden"
+              className={cn(
+                "inline-flex size-11 items-center justify-center rounded-full border transition-colors lg:hidden",
+                isSolid
+                  ? "border-line-strong bg-white text-ink hover:bg-surface-muted"
+                  : "border-white/35 bg-white/5 text-white hover:bg-white/15",
+              )}
             >
               {isOpen ? (
                 <X className="size-5" aria-hidden="true" />
@@ -126,9 +157,9 @@ export function Header() {
       <div
         id="mobile-menu"
         hidden={!isOpen}
-        className="animate-fade border-t border-line bg-white lg:hidden"
+        className="animate-fade border-t border-line bg-white shadow-float lg:hidden"
       >
-        <Container className="py-3">
+        <Container className="py-4">
           <nav aria-label="Navigasi mobile">
             <ul className="flex flex-col gap-1">
               {navLinks.map((link, index) => (
@@ -139,7 +170,7 @@ export function Header() {
                     onClick={() => setIsOpen(false)}
                     aria-current={isActive(link.href) ? "page" : undefined}
                     className={cn(
-                      "flex min-h-11 items-center rounded-[10px] px-3 text-[15px] font-medium transition-colors",
+                      "flex min-h-11 items-center rounded-md px-3 text-[13px] font-medium tracking-[0.14em] uppercase transition-colors",
                       isActive(link.href)
                         ? "bg-brand-soft text-brand-strong"
                         : "text-ink-soft hover:bg-surface-muted hover:text-ink",
@@ -154,7 +185,7 @@ export function Header() {
           <Link
             href={primaryCta.href}
             onClick={() => setIsOpen(false)}
-            className={buttonStyles({ className: "mt-3 w-full" })}
+            className={buttonStyles({ className: "mt-4 w-full" })}
           >
             {primaryCta.label}
             <ArrowRight className="size-4" aria-hidden="true" />

@@ -12,8 +12,8 @@ const productLinks = [
 ];
 
 const legalLinks = [
-  { label: "Privacy Policy", href: "/privacy-policy/" },
-  { label: "Terms & Conditions", href: "/terms/" },
+  { label: "Kebijakan Privasi", href: "/privacy-policy/" },
+  { label: "Syarat & Ketentuan", href: "/terms/" },
 ];
 
 type FooterLink = {
@@ -32,15 +32,15 @@ export function Footer() {
   ];
 
   return (
-    <footer className="border-t border-line bg-[linear-gradient(180deg,#ffffff_0%,#f8fafd_100%)]">
-      <Container className="py-14 lg:py-16">
-        <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr_1fr_1fr] lg:gap-8">
+    <footer className="bg-[#202020] text-white">
+      <Container>
+        <div className="grid gap-10 py-14 lg:grid-cols-[1.5fr_1fr_1fr_1fr] lg:gap-10 lg:py-16">
           <div className="max-w-sm">
-            <Logo />
-            <p className="mt-4 text-sm leading-relaxed text-ink-soft">{siteConfig.description}</p>
-            <p className="mt-5 inline-flex items-center gap-2 rounded-lg border border-line bg-surface-muted px-3 py-2 text-xs font-medium text-ink-soft">
-              <ShieldCheck className="size-4 text-success" aria-hidden="true" />
-              Pembayaran manual dan diverifikasi oleh tim.
+            <Logo tone="light" />
+            <p className="mt-5 text-sm leading-relaxed text-white/65">{siteConfig.description}</p>
+            <p className="mt-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[11px] font-medium text-white/60">
+              <ShieldCheck className="size-3.5 text-white/70" aria-hidden="true" />
+              Pembayaran manual dan diverifikasi oleh tim
             </p>
           </div>
 
@@ -48,7 +48,7 @@ export function Footer() {
           <FooterColumn title="Bantuan" links={helpLinks}>
             <a
               href={`mailto:${siteConfig.contact.email}`}
-              className="inline-flex items-center gap-2 text-sm text-ink-soft transition-colors hover:text-brand"
+              className="inline-flex items-center gap-2 text-sm text-white/60 transition-colors hover:text-white"
             >
               <Mail className="size-4" aria-hidden="true" />
               {siteConfig.contact.email}
@@ -56,13 +56,15 @@ export function Footer() {
           </FooterColumn>
 
           <div>
-            <h2 className="text-xs font-bold tracking-[0.14em] text-ink uppercase">Legal</h2>
-            <ul className="mt-4 flex flex-col gap-3">
+            <h2 className="text-[10px] font-semibold tracking-[0.2em] text-white/60 uppercase">
+              Legal
+            </h2>
+            <ul className="mt-5 flex flex-col gap-3">
               {legalLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-ink-soft transition-colors hover:text-brand"
+                    className="text-sm text-white/60 transition-colors hover:text-white"
                   >
                     {link.label}
                   </Link>
@@ -72,14 +74,11 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-3 border-t border-line pt-6 text-xs text-ink-muted sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-3 border-t border-white/10 py-6 text-[11px] tracking-[0.08em] text-white/60 uppercase sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {year} {siteConfig.name}. Seluruh hak cipta dilindungi.
           </p>
-          <p>
-            Harga dan data pembayaran pada situs ini adalah konfigurasi contoh yang dapat
-            disesuaikan.
-          </p>
+          <p>Dibuat untuk UMKM Indonesia</p>
         </div>
       </Container>
     </footer>
@@ -95,12 +94,14 @@ function FooterColumn({
   links: FooterLink[];
   children?: ReactNode;
 }) {
-  const linkClassName = "text-sm text-ink-soft transition-colors hover:text-brand";
+  const linkClassName = "text-sm text-white/60 transition-colors hover:text-white";
 
   return (
     <div>
-      <h2 className="text-xs font-bold tracking-[0.14em] text-ink uppercase">{title}</h2>
-      <ul className="mt-4 flex flex-col gap-3">
+      <h2 className="text-[10px] font-semibold tracking-[0.2em] text-white/60 uppercase">
+        {title}
+      </h2>
+      <ul className="mt-5 flex flex-col gap-3">
         {links.map((link) => (
           <li key={`${link.label}-${link.href}`}>
             {link.external ? (

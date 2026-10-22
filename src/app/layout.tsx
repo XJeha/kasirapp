@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import localFont from "next/font/local";
 import "./globals.css";
+import { MotionController } from "@/components/animation/MotionController";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { SupportButton } from "@/components/layout/SupportButton";
@@ -16,6 +17,16 @@ const plusJakarta = localFont({
   display: "optional",
   preload: true,
   fallback: ["system-ui", "Segoe UI", "sans-serif"],
+});
+
+const playfair = localFont({
+  src: "../fonts/PlayfairDisplay-Italic.woff2",
+  variable: "--font-playfair",
+  weight: "400",
+  style: "italic",
+  display: "optional",
+  preload: true,
+  fallback: ["Georgia", "Times New Roman", "serif"],
 });
 
 const siteTitle = `${siteConfig.name} — ${siteConfig.tagline}`;
@@ -86,8 +97,17 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="id" className={plusJakarta.variable}>
+    <html lang="id" className={`${plusJakarta.variable} ${playfair.variable}`}>
       <body className="min-h-dvh bg-canvas text-ink">
+        {/*
+          Menandai bahwa JavaScript aktif sebelum paint pertama, sehingga CSS
+          reveal hanya menyembunyikan elemen ketika animasi benar-benar tersedia.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "document.documentElement.classList.add('reveal-enabled');",
+          }}
+        />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-brand focus:shadow-float"
@@ -98,6 +118,7 @@ export default function RootLayout({
         <main id="main-content">{children}</main>
         <Footer />
         <SupportButton />
+        <MotionController />
         <JsonLd data={organizationSchema} />
       </body>
     </html>

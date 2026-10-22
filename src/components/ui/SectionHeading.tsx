@@ -5,7 +5,8 @@ type SectionHeadingProps = {
   title: string;
   description?: string;
   align?: "left" | "center";
-  as?: "h1" | "h2";
+  as?: "h1" | "h2" | "h3";
+  tone?: "light" | "dark";
   id?: string;
   className?: string;
 };
@@ -16,33 +17,42 @@ export function SectionHeading({
   description,
   align = "center",
   as = "h2",
+  tone = "light",
   id,
   className,
 }: SectionHeadingProps) {
   const Heading = as;
+  const isDark = tone === "dark";
 
   return (
     <div
+      data-reveal="up"
       className={cn(
         "flex flex-col gap-4",
-        align === "center" && "items-center text-center",
-        align === "center" ? "mx-auto max-w-3xl" : "max-w-2xl",
+        align === "center" && "mx-auto max-w-3xl items-center text-center",
+        align === "left" && "max-w-2xl items-start text-left",
         className,
       )}
     >
       {eyebrow ? (
-        <span className="inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.16em] text-brand uppercase">
-          <span aria-hidden className="size-1.5 rounded-full bg-brand" />
+        <span
+          className={cn(
+            "inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.24em] uppercase",
+            isDark ? "text-white/70" : "text-brand",
+          )}
+        >
+          <span aria-hidden className="h-px w-6 bg-current" />
           {eyebrow}
         </span>
       ) : null}
       <Heading
         id={id}
         className={cn(
-          "font-bold tracking-[-0.02em] text-ink",
+          "font-light tracking-[0.05em] uppercase",
+          isDark ? "text-white" : "text-ink",
           as === "h1"
-            ? "text-4xl sm:text-5xl lg:text-[3.4rem] lg:leading-[1.08]"
-            : "text-3xl sm:text-[2.25rem] sm:leading-tight lg:text-[2.6rem] lg:leading-[1.15]",
+            ? "text-4xl sm:text-5xl lg:text-[3.3rem] lg:leading-[1.12]"
+            : "text-[1.7rem] leading-[1.2] sm:text-[2.05rem] lg:text-[2.35rem]",
         )}
       >
         {title}
@@ -50,7 +60,8 @@ export function SectionHeading({
       {description ? (
         <p
           className={cn(
-            "text-base leading-relaxed text-ink-soft sm:text-[17px]",
+            "font-serif text-[15px] leading-relaxed italic sm:text-base",
+            isDark ? "text-white/75" : "text-ink-muted",
             align === "center" && "max-w-2xl",
           )}
         >

@@ -7,7 +7,7 @@ export function Container({ children, className }: { children: ReactNode; classN
   );
 }
 
-type SectionTone = "default" | "muted" | "brand";
+type SectionTone = "default" | "muted" | "brand" | "dark";
 
 export function Section({
   id,
@@ -30,10 +30,11 @@ export function Section({
       id={id}
       aria-labelledby={labelledBy}
       className={cn(
-        "py-16 sm:py-20 lg:py-28",
+        "py-20 sm:py-24 lg:py-[110px]",
         defer && !id && "section-defer",
-        tone === "muted" && "bg-dots-soft border-y border-line/80 bg-surface-muted",
+        tone === "muted" && "border-y border-line/70 bg-surface-muted",
         tone === "brand" && "border-y border-brand-line bg-brand-soft/60",
+        tone === "dark" && "bg-cta-dark text-white",
         className,
       )}
     >

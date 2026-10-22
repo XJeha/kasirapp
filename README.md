@@ -10,8 +10,9 @@ Situs marketing dan penjualan statis untuk aplikasi kasir/POS. Dibangun dengan N
 
 Yang **ada**:
 
-- Landing page lengkap: hero + mockup dashboard, kategori bisnis, masalah/solusi, 10 fitur, dua showcase produk, dashboard demo, analitik interaktif, cara kerja, manfaat, harga, metode pembayaran, FAQ, CTA, dan footer.
-- Latar berlapis: kanvas off-white, aurora halus di hero, tekstur titik pada section, band harga, panel CTA gelap, dan badge trust faktual (verifikasi manual, tanpa akun, data di browser, tanpa PIN/OTP).
+- Landing page lengkap: hero gelap sinematik + dua mockup HP, showcase "Upgrade Bisnismu", kategori bisnis, fitur tiga kolom dengan mockup HP di tengah, demo dashboard gelap, tantangan operasional, analitik interaktif, harga, CTA kontak, dan FAQ.
+- Bahasa visual mengikuti struktur referensi: aksen merah, tipografi ringan dengan aksen serif italic, hero/CTA gelap berlapis, mockup HP CSS-orisinal, serta footer gelap.
+- Animasi: parallax latar hero/CTA, partikel bergerak, mockup HP mengambang, reveal on scroll (fade/zoom/left/right) dengan stagger, header transparan yang berubah putih saat scroll, dan hover arrow/CTA.
 - Halaman `/features`, `/pricing`, `/order`, `/payment`, `/payment-success`, `/privacy-policy`, `/terms`.
 - Pemilihan paket dan durasi dengan perhitungan harga + diskon di browser.
 - Rincian fitur tiap paket dan tabel perbandingan dilipat menjadi dropdown pada mobile; desktop tetap menampilkan semuanya.
@@ -48,6 +49,17 @@ Yang **tidak ada** (sesuai requirement):
 | Playwright + axe-core                    | 1.64.1 / 4.14.0 |
 
 Node.js yang dibutuhkan: **>= 22.0.0** (Wrangler 4.151.3; Next.js sendiri minimal 20.9.0). Dikembangkan dan diverifikasi dengan Node 24.19.0 di Windows. Build Cloudflare memakai `.node-version` = `24.18.0`.
+
+---
+
+## Design & animasi
+
+- **Palet:** merah `#cf3a4a` sebagai aksen utama, ungu `#5a32c6` sebagai aksen pendukung, permukaan putih/`#fafafa`, teks `#202020`.
+- **Tipografi:** Plus Jakarta Sans (lokal) untuk teks, Playfair Display italic (lokal) sebagai aksen editorial; fallback aman ke Georgia.
+- **Hero:** latar gelap berlapis (radial glow merah/ungu + garis + partikel), parallax saat scroll, dua mockup HP CSS dengan animasi masuk dan float.
+- **Section:** alternasi putih/`#fafafa`, mockup besar, fitur tiga kolom, band gelap untuk demo dashboard dan CTA.
+- **Animasi:** `IntersectionObserver` untuk reveal; transform/opacity dinonaktifkan otomatis pada `prefers-reduced-motion`.
+- **Tanpa aset dari situs referensi:** seluruh mockup, logo, dan ilustrasi tetap dibuat khusus untuk proyek ini.
 
 ---
 
@@ -210,21 +222,21 @@ Detail: [docs/SECURITY.md](docs/SECURITY.md).
 
 ## Performa
 
-- Font lokal (27 KB WOFF2 variable), preload, `font-display: optional`.
+- Font lokal: Plus Jakarta Sans variable (27 KB) + Playfair Display italic (21 KB), preload, `font-display: optional`.
 - Chart Recharts dimuat lazy saat section mendekati viewport; tidak ada library chart di bundle awal.
 - Tidak ada analytics, gambar eksternal, atau iframe.
-- Section di bawah fold memakai `content-visibility: auto` (kecuali target anchor).
 - Mockup produk adalah HTML/CSS asli, bukan gambar eksternal.
 - Chart dan mockup didekorasi dengan `aria-hidden`; konten setara tersedia sebagai teks.
+- Animasi memakai transform/opacity (compositor-friendly), `will-change` dilepas setelah reveal, dan controller parallax/reveal digabung agar hanya ada satu scroll listener.
 
-Hasil Lighthouse (build produksi, Chrome headless, 21 Oktober 2026):
+Hasil Lighthouse 23 Oktober 2026 (build produksi, Chrome headless, `serve out`):
 
-| Preset            | Performance                          | Accessibility | Best Practices | SEO     |
-| ----------------- | ------------------------------------ | ------------- | -------------- | ------- |
-| Desktop           | **100**                              | **100**       | **100**        | **100** |
-| Mobile (simulasi) | **87** (run terakhir; variasi 87–93) | **100**       | **100**        | **100** |
+| Preset            | Performance | Accessibility | Best Practices | SEO |
+| ----------------- | ----------- | ------------- | -------------- | --- |
+| Desktop           | **97**      | **100**       | **100**        | 100 |
+| Mobile (simulasi) | 68–81       | **100**       | **100**        | 100 |
 
-Target mobile ≥ 90 belum konsisten karena TBT hidrasi React pada simulasi CPU 4×. Ini dicatat sebagai risiko, bukan diklaim PASS. Semua temuan aksesibilitas serius sudah diperbaiki.
+Run mobile terakhir: Performance 77, LCP 3,1 s, TBT 480 ms, CLS 0. Skor mobile bervariasi karena TBT hidrasi React pada simulasi CPU 4×; angka ini dicatat sebagai risiko, bukan PASS untuk target ≥ 90. Aksesibilitas, Best Practices, dan SEO stabil 100.
 
 ---
 
@@ -271,12 +283,13 @@ Detail hasil: [docs/TEST_REPORT.md](docs/TEST_REPORT.md).
 - Harga, rekening, email, domain, dan identitas legal adalah placeholder.
 - Dokumen legal adalah template dan bukan nasihat hukum.
 - CSP belum memakai nonce/hash karena keterbatasan static export.
-- Skor Lighthouse mobile bervariasi (87–93) pada lingkungan pengujian.
+- Skor Lighthouse mobile bervariasi (68-81; run terakhir 77) pada lingkungan pengujian; TBT hidrasi React masih menjadi penyebab utama. Desktop berada di 97.
 
 ---
 
 ## Lisensi aset
 
 - Font **Plus Jakarta Sans** — SIL Open Font License 1.1.
+- Font **Playfair Display** (italic) — SIL Open Font License 1.1.
 - Ikon **Lucide** — ISC License.
 - Mockup, logo, dan ilustrasi UI dibuat khusus untuk proyek ini; tidak menyalin aset situs referensi.

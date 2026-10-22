@@ -1,4 +1,6 @@
+import type { CSSProperties } from "react";
 import { Clock, Mail, MessageCircle, ShieldCheck } from "lucide-react";
+import { Parallax } from "@/components/animation/Parallax";
 import { WhatsAppCta } from "@/components/contact/WhatsAppCta";
 import { Container } from "@/components/layout/Section";
 import { ButtonLink } from "@/components/ui/Button";
@@ -6,114 +8,112 @@ import { siteConfig } from "@/data/site";
 
 export function FinalCta() {
   return (
-    <section id="kontak" className="py-16 sm:py-20 lg:py-24">
-      <Container>
-        <div className="relative overflow-hidden rounded-3xl bg-[linear-gradient(135deg,#0c1a33_0%,#102443_55%,#0a1b34_100%)] px-5 py-10 sm:px-10 sm:py-12 lg:px-14 lg:py-16">
-          <div
-            aria-hidden="true"
-            className="bg-grid-faint mask-fade-bottom absolute inset-0 opacity-60"
-          />
-          <div
-            aria-hidden="true"
-            className="absolute -top-24 -right-16 size-80 rounded-full bg-brand/25 blur-3xl"
-          />
-          <div
-            aria-hidden="true"
-            className="absolute -bottom-28 -left-16 size-72 rounded-full bg-accent/10 blur-3xl"
-          />
+    <section id="kontak" className="bg-cta-dark relative overflow-hidden text-white">
+      <Parallax speed={0.14} className="absolute inset-x-0 -inset-y-24">
+        <div className="bg-particles absolute inset-0 opacity-40" />
+        <div className="bg-streaks absolute inset-0 opacity-60" />
+        <div className="absolute top-0 left-[8%] size-80 rounded-full bg-brand/20 blur-[120px]" />
+        <div className="absolute right-[6%] bottom-0 size-72 rounded-full bg-accent/20 blur-[120px]" />
+      </Parallax>
 
-          <div className="relative grid gap-10 lg:grid-cols-[1.25fr_0.75fr] lg:items-center lg:gap-16">
-            <div>
-              <p className="text-[11px] font-bold tracking-[0.16em] text-white/60 uppercase">
-                Mulai dari langkah sederhana
-              </p>
-              <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-[-0.02em] text-white sm:text-4xl lg:text-[2.6rem] lg:leading-[1.15]">
-                Siap Membuat Operasional Bisnis Lebih Mudah?
-              </h2>
-              <p className="mt-4 max-w-xl text-sm leading-relaxed text-white/70 sm:text-base">
-                Pilih paket yang sesuai, lakukan pembayaran manual, lalu kirim konfirmasi melalui
-                email. Tim kami akan memverifikasi pembayaran dan membantu proses aktivasi.
-              </p>
+      <Container className="relative">
+        <div className="py-20 sm:py-24 lg:py-[110px]">
+          <div data-reveal="up" className="mx-auto max-w-3xl text-center">
+            <span className="inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.24em] text-white/60 uppercase">
+              <span aria-hidden="true" className="h-px w-6 bg-brand" />
+              Mulai dari langkah sederhana
+            </span>
+            <h2 className="mt-5 text-[2rem] leading-[1.15] font-light tracking-[0.03em] text-white uppercase sm:text-[2.7rem]">
+              Siap Membuat Operasional Bisnis Lebih Mudah?
+            </h2>
+            <p className="mx-auto mt-5 max-w-xl font-serif text-base leading-relaxed text-white/70 italic sm:text-lg">
+              Pilih paket yang sesuai, lakukan pembayaran, lalu kirim konfirmasi. Tim kami akan
+              membantu proses aktivasi.
+            </p>
 
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                <ButtonLink href="/pricing/" variant="inverse" size="lg">
-                  Pilih Paket Sekarang
-                </ButtonLink>
-                <WhatsAppCta label="Chat WhatsApp" size="lg" />
-                <ButtonLink
-                  href={`mailto:${siteConfig.contact.email}?subject=Pertanyaan%20Paket%20Aplikasi%20Kasir`}
-                  variant="outline-inverse"
-                  size="lg"
+            <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <ButtonLink href="/pricing/" size="lg" className="group w-full sm:w-auto">
+                Pilih Paket Sekarang
+                <span
+                  aria-hidden="true"
+                  className="transition-transform duration-300 group-hover:translate-x-1"
                 >
-                  Kirim Email
-                </ButtonLink>
-              </div>
-
-              <p className="mt-5 flex items-start gap-2 text-xs leading-relaxed text-white/70">
-                <ShieldCheck className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
-                Kami tidak pernah meminta PIN, password, OTP, CVV, atau informasi rahasia rekening
-                Anda.
-              </p>
+                  →
+                </span>
+              </ButtonLink>
+              <WhatsAppCta
+                label="Chat via WhatsApp"
+                size="lg"
+                variant="outline-inverse"
+                className="w-full sm:w-auto"
+              />
+              <ButtonLink
+                href={`mailto:${siteConfig.contact.email}?subject=Pertanyaan%20Paket%20Aplikasi%20Kasir`}
+                variant="outline-inverse"
+                size="lg"
+                className="w-full sm:w-auto"
+              >
+                Kirim Email
+              </ButtonLink>
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm">
-              <p className="text-sm font-semibold text-white">Butuh bantuan memilih paket?</p>
-              <p className="mt-1.5 text-xs leading-relaxed text-white/70">
-                Sampaikan jenis usaha dan kebutuhan Anda. Tim akan membantu memilih paket yang
-                paling sesuai.
-              </p>
-
-              <dl className="mt-5 space-y-4">
-                <div>
-                  <dt className="flex items-center gap-2 text-[11px] font-medium text-white/70">
-                    <span className="grid size-7 place-items-center rounded-md bg-white/10 text-white">
-                      <Mail className="size-3.5" aria-hidden="true" />
-                    </span>
-                    Email
-                  </dt>
-                  <dd className="mt-1 pl-9">
-                    <a
-                      href={`mailto:${siteConfig.contact.email}`}
-                      className="text-sm font-medium break-all text-white underline decoration-white/30 underline-offset-4 hover:decoration-white"
-                    >
-                      {siteConfig.contact.email}
-                    </a>
-                  </dd>
-                </div>
-
-                <div>
-                  <dt className="flex items-center gap-2 text-[11px] font-medium text-white/70">
-                    <span className="grid size-7 place-items-center rounded-md bg-white/10 text-white">
-                      <MessageCircle className="size-3.5" aria-hidden="true" />
-                    </span>
-                    WhatsApp
-                  </dt>
-                  <dd className="mt-1 pl-9 text-sm font-medium text-white">
-                    {siteConfig.contact.whatsappDisplay}
-                  </dd>
-                </div>
-
-                <div>
-                  <dt className="flex items-center gap-2 text-[11px] font-medium text-white/70">
-                    <span className="grid size-7 place-items-center rounded-md bg-white/10 text-white">
-                      <Clock className="size-3.5" aria-hidden="true" />
-                    </span>
-                    Jam operasional
-                  </dt>
-                  <dd className="mt-1 pl-9 text-sm text-white">
-                    {siteConfig.operations.supportHours}
-                  </dd>
-                </div>
-              </dl>
-
-              <WhatsAppCta label="Chat via WhatsApp" className="mt-4 w-full" />
-
-              <p className="mt-4 border-t border-white/10 pt-4 text-[11px] leading-relaxed text-white/70">
-                Balasan chat dan email mengikuti jam operasional. Estimasi aktivasi{" "}
-                {siteConfig.operations.activationEstimate} setelah pembayaran terverifikasi.
-              </p>
-            </div>
+            <p className="mt-6 inline-flex items-start gap-2 text-[11px] leading-relaxed text-white/60">
+              <ShieldCheck className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+              Kami tidak pernah meminta PIN, password, OTP, CVV, atau informasi rahasia rekening
+              Anda.
+            </p>
           </div>
+
+          <ul className="mx-auto mt-14 grid max-w-4xl gap-3 sm:grid-cols-3">
+            <li
+              data-reveal="up"
+              className="rounded-lg border border-white/10 bg-white/5 px-5 py-4 backdrop-blur-sm"
+            >
+              <p className="flex items-center gap-2 text-[10px] font-semibold tracking-[0.18em] text-white/55 uppercase">
+                <Mail className="size-3.5" aria-hidden="true" />
+                Email
+              </p>
+              <a
+                href={`mailto:${siteConfig.contact.email}`}
+                className="mt-2 block text-[13px] font-medium break-all text-white underline decoration-white/25 underline-offset-4 transition-colors hover:decoration-white"
+              >
+                {siteConfig.contact.email}
+              </a>
+            </li>
+
+            <li
+              data-reveal="up"
+              style={{ "--reveal-delay": "100ms" } as CSSProperties}
+              className="rounded-lg border border-white/10 bg-white/5 px-5 py-4 backdrop-blur-sm"
+            >
+              <p className="flex items-center gap-2 text-[10px] font-semibold tracking-[0.18em] text-white/55 uppercase">
+                <MessageCircle className="size-3.5" aria-hidden="true" />
+                WhatsApp
+              </p>
+              <p className="mt-2 text-[13px] font-medium text-white">
+                {siteConfig.contact.whatsappDisplay}
+              </p>
+            </li>
+
+            <li
+              data-reveal="up"
+              style={{ "--reveal-delay": "200ms" } as CSSProperties}
+              className="rounded-lg border border-white/10 bg-white/5 px-5 py-4 backdrop-blur-sm"
+            >
+              <p className="flex items-center gap-2 text-[10px] font-semibold tracking-[0.18em] text-white/55 uppercase">
+                <Clock className="size-3.5" aria-hidden="true" />
+                Jam operasional
+              </p>
+              <p className="mt-2 text-[13px] font-medium text-white">
+                {siteConfig.operations.supportHours}
+              </p>
+            </li>
+          </ul>
+
+          <p className="mt-6 text-center text-[11px] leading-relaxed text-white/55">
+            Balasan chat dan email mengikuti jam operasional. Estimasi aktivasi{" "}
+            {siteConfig.operations.activationEstimate} setelah pembayaran terverifikasi.
+          </p>
         </div>
       </Container>
     </section>
